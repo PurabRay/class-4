@@ -12,6 +12,20 @@ let courses=[
 app.listen(8082, () => {
   console.log(`Server started on port ${8082}`);
 });
+
+function logger(req, res, next) {
+    const method = req.method;
+    const ip = req.ip;
+    const hostname = req.hostname;
+    const date = new Date().toISOString();
+
+    console.log(`[${date}] ${method} request from ${ip} to ${hostname}${req.originalUrl}`);
+    next();
+}
+
+app.use(logger);
+  
+  app.use(logger); 
 app.get('/courses', (req, res) => {
     res.json(courses);
 });
